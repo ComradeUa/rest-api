@@ -9,6 +9,7 @@ import { hash, verify } from 'argon2';
 import { UsersService } from '@/users/users.service';
 import { AuthDto } from './dto/auth.dto';
 import { Response } from 'express';
+import { SessionService } from '@/session/session.service';
 @Injectable()
 export class AuthService {
   EXPIRES_DAY_REFRESH_TOKEN = 1;
@@ -16,6 +17,7 @@ export class AuthService {
   constructor(
     private userService: UsersService,
     private jwtService: JwtService,
+    private readonly sessionService: SessionService
   ) {}
   async validateUser(dto: AuthDto) {
     const user = await this.userService.getByEmail(dto.email);
@@ -33,6 +35,7 @@ export class AuthService {
   async login(dto: AuthDto) {
     const { password, ...user } = await this.validateUser(dto);
     const tokens = await this.issueToken(user.id);
+    await this.sessionService.createSession(user.id, tokens.refresh_token);
     return {
       user,
       ...tokens,
@@ -46,6 +49,7 @@ export class AuthService {
     const newUser = await this.userService.createUser(dto);
     const { password, ...user } = newUser;
     const tokens = await this.issueToken(user.id);
+    await this.sessionService.createSession(user.id, tokens.refresh_token);
     return {
       user,
       ...tokens,
@@ -69,16 +73,23 @@ export class AuthService {
     });
   }
     async getNewTokens(refreshToken: string) {
+        const session = await this.sessionService.getSessionByRefreshToken(refreshToken);
+        if(!session){
+          throw new UnauthorizedException('Invalid session');
+        }
         const result = await this.jwtService.verifyAsync(refreshToken);
         if(!result){
           throw new UnauthorizedException('Invalid refresh token');
         }
         const date_user  = await this.userService.getById(result.id);
+        await this.sessionService.deleteSession(refreshToken)
         if(!date_user) {
           throw new UnauthorizedException('User not found');
-        }
+        };
+
         const { password, ...user } = date_user;
         const tokens = await this.issueToken(user.id);
+        await this.sessionService.createSession(user.id, tokens.refresh_token);
         return {
             user,
             ...tokens

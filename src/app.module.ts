@@ -3,7 +3,8 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { TaskModule } from './task/task.module';
+import { SessionModule } from './session/session.module';
 @Module({
-  imports: [AuthModule, UsersModule, TaskModule, ConfigModule.forRoot()],
+  imports: [AuthModule, UsersModule, TaskModule, ConfigModule.forRoot(), SessionModule],
 })
 export class AppModule {}
