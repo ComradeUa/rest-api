@@ -18,16 +18,16 @@ export class TaskService {
         });
         return task;
     }
-    async updateTask(taskId: string, taskDto: TaskDto) {
+    async updateTask(taskId: string, userId: string, taskDto: TaskDto) {
         const updatedTask = await this.prisma.task.update({
-            where: { id: taskId },
+            where: { id: taskId, userId: userId },
             data: taskDto
         });
         return updatedTask;
     }
-    async deleteTask(taskId: string) {
+    async deleteTask(taskId: string, userId: string) {
         await this.prisma.task.delete({
-            where: { id: taskId },
+            where: { id: taskId, userId: userId },
         });
         return { message: 'Task deleted successfully' };
     }
