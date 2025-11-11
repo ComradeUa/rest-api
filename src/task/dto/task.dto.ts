@@ -1,4 +1,4 @@
-import { IsEnum, IsOptional, IsString } from "class-validator";
+import { IsArray, IsEnum, IsOptional, IsString } from "class-validator";
 import { Priority } from "generated/prisma";
 
 export class TaskDto {
@@ -12,4 +12,8 @@ export class TaskDto {
     @IsOptional()
     @IsEnum(Priority, {message: 'priority must be one of LOW, MEDIUM, HIGH'})
     priority?: Priority;
+    @IsOptional()
+    @IsArray()
+    @IsString({each: true})
+    tags?: string[];
 }
