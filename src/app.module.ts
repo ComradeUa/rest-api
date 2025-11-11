@@ -7,6 +7,13 @@ import { TagModule } from './tag/tag.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule, UsersModule, TaskModule, ConfigModule.forRoot(), TagModule],
+  imports: [
+    PrismaModule,
+    AuthModule,
+    UsersModule,
+    TaskModule,
+    ConfigModule.forRoot({ isGlobal: true }),
+    TagModule,
+  ],
 })
 export class AppModule {}
