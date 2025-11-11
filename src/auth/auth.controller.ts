@@ -20,7 +20,7 @@ export class AuthController {
         this.authService.addRefreshTokenToResponse(res, refresh_token);
         return response;
     }
-   @Post('logout')
+   @Get('logout')
    async logout(@Req() req: Request, @Res({passthrough: true}) res: Response) {
      const refreshTokenFromReq = req.cookies[this.authService.REFRESH_TOKEN_COOKIE_NAME];
      if(!refreshTokenFromReq){

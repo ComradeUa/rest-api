@@ -31,7 +31,7 @@ export class AuthService {
     return { access_token, refresh_token };
   }
   async login(dto: AuthDto) {
-    const { password, ...user } = await this.validateUser(dto);
+    const { password, tasks, ...user } = await this.validateUser(dto);
     const tokens = await this.issueToken(user.id);
     return {
       user,
@@ -44,7 +44,7 @@ export class AuthService {
       throw new BadRequestException('User already exists');
     }
     const newUser = await this.userService.createUser(dto);
-    const { password, ...user } = newUser;
+    const { password, tasks, ...user } = newUser;
     const tokens = await this.issueToken(user.id);
     return {
       user,
@@ -77,7 +77,7 @@ export class AuthService {
         if(!date_user) {
           throw new UnauthorizedException('User not found');
         }
-        const { password, ...user } = date_user;
+        const { password, tasks, ...user } = date_user;
         const tokens = await this.issueToken(user.id);
         return {
             user,
