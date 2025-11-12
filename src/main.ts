@@ -14,12 +14,12 @@ async function bootstrap() {
       saveUninitialized: false,
       cookie: {
         httpOnly: true,
-        maxAge: 36000000
-      }
+        maxAge: 36000000,
+      },
     }),
   );
   app.use(cookieParser());
   app.setGlobalPrefix('api');
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 5200);
 }
 bootstrap();
