@@ -14,7 +14,7 @@ export class UsersController {
         return this.usersService.getProfile(id);
     }
     @Auth()
-    @Patch()
+    @Put()
     @UsePipes(new ValidationPipe())
     async updateProfile(@CurrentUser('id') id: string, @Body() userDto: UserDto) {
         return this.usersService.updateUser(id, userDto);
