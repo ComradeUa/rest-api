@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post, Req, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Put, Post, Req, UsePipes, ValidationPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Auth } from '@/decorators/auth.decorator';
 import { Request } from 'express';
