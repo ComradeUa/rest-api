@@ -58,6 +58,7 @@ export class AuthService {
       httpOnly: true,
       secure: true,
       sameSite: 'none',
+      partitioned: true,
     });
   }
   removeRefreshTokenFromResponse(res: Response) {
@@ -65,6 +66,7 @@ export class AuthService {
       httpOnly: true,
       secure: true,
       sameSite: 'none',
+      partitioned: true,
       expires: new Date(0),
     });
   }

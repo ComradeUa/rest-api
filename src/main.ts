@@ -13,10 +13,11 @@ async function bootstrap() {
       resave: false,
       saveUninitialized: false,
       cookie: {
+        partitioned: true,
         httpOnly: true,
         maxAge: 36000000,
         sameSite: 'none',
-        secure: true
+        secure: true,
       },
     }),
   );
