@@ -57,33 +57,31 @@ export class AuthService {
     res.cookie(this.REFRESH_TOKEN_COOKIE_NAME, refreshToken, {
       httpOnly: true,
       secure: true,
-      sameSite: 'strict',
+      sameSite: 'none',
     });
   }
   removeRefreshTokenFromResponse(res: Response) {
     res.cookie(this.REFRESH_TOKEN_COOKIE_NAME, '', {
       httpOnly: true,
       secure: true,
-      sameSite: 'strict',
+      sameSite: 'none',
       expires: new Date(0),
     });
   }
-    async getNewTokens(refreshToken: string) {
-        const result = await this.jwtService.verifyAsync(refreshToken);
-        if(!result){
-          throw new UnauthorizedException('Invalid refresh token');
-        }
-        const date_user  = await this.userService.getById(result.id);
-        if(!date_user) {
-          throw new UnauthorizedException('User not found');
-        }
-        const { password, tasks, ...user } = date_user;
-        const tokens = await this.issueToken(user.id);
-        return {
-            user,
-            ...tokens
-        }
+  async getNewTokens(refreshToken: string) {
+    const result = await this.jwtService.verifyAsync(refreshToken);
+    if (!result) {
+      throw new UnauthorizedException('Invalid refresh token');
     }
-
+    const date_user = await this.userService.getById(result.id);
+    if (!date_user) {
+      throw new UnauthorizedException('User not found');
+    }
+    const { password, tasks, ...user } = date_user;
+    const tokens = await this.issueToken(user.id);
+    return {
+      user,
+      ...tokens,
+    };
+  }
 }
-
