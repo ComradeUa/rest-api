@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post, Req, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Put, Post, Req, UsePipes, ValidationPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Auth } from '@/decorators/auth.decorator';
 import { Request } from 'express';
@@ -14,7 +14,7 @@ export class UsersController {
         return this.usersService.getProfile(id);
     }
     @Auth()
-    @Patch()
+    @Put()
     @UsePipes(new ValidationPipe())
     async updateProfile(@CurrentUser('id') id: string, @Body() userDto: UserDto) {
         return this.usersService.updateUser(id, userDto);
