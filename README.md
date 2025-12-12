@@ -307,10 +307,4 @@ prisma/
 
 This project is licensed under the UNLICENSED License.
 
-## Author
 
-Ivan Yuzov
-
-## Support
-
-For support, email yuzovivan@icloud.com or open an issue in the repository.
