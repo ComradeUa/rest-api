@@ -7,16 +7,16 @@ import { UserDto } from './dto/user.dto';
 
 @Controller('user/profile')
 export class UsersController {
-    constructor(private readonly usersService: UsersService) {}
-    @Auth()
-    @Get()
-    async getProfile(@CurrentUser('id') id: string) {
-        return this.usersService.getProfile(id);
-    }
-    @Auth()
-    @Put()
-    @UsePipes(new ValidationPipe())
-    async updateProfile(@CurrentUser('id') id: string, @Body() userDto: UserDto) {
-        return this.usersService.updateUser(id, userDto);
-    }
+  constructor(private readonly usersService: UsersService) {}
+  @Auth()
+  @Get()
+  async getProfile(@CurrentUser('id') id: string) {
+    return this.usersService.getProfile(id);
+  }
+  @Auth()
+  @Put('update')
+  @UsePipes(new ValidationPipe())
+  async updateProfile(@CurrentUser('id') id: string, @Body() userDto: UserDto) {
+    return this.usersService.update(id, userDto);
+  }
 }
