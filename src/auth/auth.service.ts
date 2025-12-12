@@ -54,20 +54,25 @@ export class AuthService {
   addRefreshTokenToResponse(res: Response, refreshToken: string) {
     const expiresIn = new Date();
     expiresIn.setDate(expiresIn.getDate() + this.EXPIRES_DAY_REFRESH_TOKEN);
+
     res.cookie(this.REFRESH_TOKEN_COOKIE_NAME, refreshToken, {
       httpOnly: true,
+      domain: 'localhost',
+      expires: expiresIn,
       secure: true,
+      // lax if production
       sameSite: 'none',
-      partitioned: true,
     });
   }
+
   removeRefreshTokenFromResponse(res: Response) {
     res.cookie(this.REFRESH_TOKEN_COOKIE_NAME, '', {
       httpOnly: true,
-      secure: true,
-      sameSite: 'none',
-      partitioned: true,
+      domain: 'localhost',
       expires: new Date(0),
+      secure: true,
+      // lax if production
+      sameSite: 'none',
     });
   }
   async getNewTokens(refreshToken: string) {
